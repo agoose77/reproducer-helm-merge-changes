@@ -2,6 +2,8 @@
 
 Helm null handling has regressed. It's noticeable in Test 2.
 
+Each test can be run by Helm 3.17.0, and Helm 4.1.1. Compare the outputs!
+
 ## 0. Define helpers
 ```bash
 alias helm-317='podman run --rm -it -v $PWD:/app -w /app "alpine/helm:3.17.0"'
