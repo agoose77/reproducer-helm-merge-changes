@@ -39,4 +39,17 @@ alias helm-411='podman run --rm -it -v $PWD:/app -w /app "alpine/helm:4.1.1"'
   helm-317 template . --values=./next-values.yaml 
   helm-411 template . --values=./next-values.yaml
 )
+```
+
+## 4. Overriding sibling values (in single chart)
+- The chart defines a config section (empty mapping) in `values.yaml`.
+- The custom `next-values-1.yaml` and `next-values-2.yaml` define a different key with a non-null, and null value, respectively.
+```bash
+(
+  cd single-chart-siblings-override
+  helm-317 template . --values=./next-values-1.yaml --values=./next-values-2.yaml 
+  helm-411 template . --values=./next-values-1.yaml --values=./next-values-2.yaml 
+)
+```
+
 
