@@ -1,5 +1,7 @@
 # Demo of Helm merging behaviour
 
+Helm null handling has regressed. It's noticeable in Test 2.
+
 ## 0. Define helpers
 ```bash
 alias helm-317='podman run --rm -it -v $PWD:/app -w /app "alpine/helm:3.17.0"'
@@ -18,6 +20,9 @@ alias helm-411='podman run --rm -it -v $PWD:/app -w /app "alpine/helm:4.1.1"'
 )
 ```
 ## 2. Overriding sibling values (in parent chart)
+
+> [!Warning]
+> This is the test that has regressed.
 
 - The `child` chart defines a config section (empty mapping) in `values.yaml`. 
 - The `parent` chart defines an arbitrary key in `values.yaml`
