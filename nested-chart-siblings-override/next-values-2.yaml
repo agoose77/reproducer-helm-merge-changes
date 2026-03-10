@@ -1,5 +1,4 @@
 child:
   config:
-    KubernetesBuildExecutor:
-      node_selector:
-        hub.jupyter.org/node-purpose: null
+    node_selector:
+      hub.jupyter.org/node-purpose: null
