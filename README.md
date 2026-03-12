@@ -11,6 +11,10 @@ alias helm-411='podman run --rm -it -v $PWD:/app -w /app "alpine/helm:4.1.1"'
 ```
 ## 1. Overriding chart values (in parent chart)
 
+> [!Warning]
+> This is the test that has regressed.
+
+
 - The `child` chart defines a config section (empty mapping) in `values.yaml`. 
 - The `parent` chart defines a config value in `values.yaml`
 - The custom `next-values.yaml` overrides the parent config key with null
@@ -22,10 +26,6 @@ alias helm-411='podman run --rm -it -v $PWD:/app -w /app "alpine/helm:4.1.1"'
 )
 ```
 ## 2. Overriding sibling values (in parent chart)
-
-> [!Warning]
-> This is the test that has regressed.
-
 - The `child` chart defines a config section (empty mapping) in `values.yaml`. 
 - The `parent` chart defines an arbitrary key in `values.yaml`
 - The custom `next-values-1.yaml` and `next-values-2.yaml` define a different key with a non-null, and null value, respectively.
