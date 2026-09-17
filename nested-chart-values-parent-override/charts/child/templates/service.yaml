@@ -1,0 +1,2 @@
+raw-config: |
+  {{- pick .Values "config" | toYaml | nindent 2 }}
