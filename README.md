@@ -1,10 +1,8 @@
 # Demo of Helm merging behaviour
 
-Helm null handling has regressed. It's noticeable in Test 2.
+Helm `null` handling has regressed between 3.17.0 and 4.x. Each test can be run by Helm 3.17.0, and Helm latest. Compare the outputs!
 
-Each test can be run by Helm 3.17.0, and Helm latest. Compare the outputs!
-
-## 0. Define helpers
+## Define helpers
 
 ```bash
 function helm-ver() {
