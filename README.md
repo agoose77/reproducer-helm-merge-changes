@@ -2,61 +2,102 @@
 
 Helm null handling has regressed. It's noticeable in Test 2.
 
-Each test can be run by Helm 3.17.0, and Helm 4.1.1. Compare the outputs!
+Each test can be run by Helm 3.17.0, and Helm latest. Compare the outputs!
 
 ## 0. Define helpers
+
 ```bash
-alias helm-317='podman run --rm -it -v $PWD:/app -w /app "alpine/helm:3.17.0"'
-alias helm-411='podman run --rm -it -v $PWD:/app -w /app "alpine/helm:4.1.1"'
+function helm-ver() {
+  version="${1:?need version}"
+  shift
+  podman run --rm -it -v $PWD:/app -w /app "docker.io/alpine/helm-ver:${version}" "${@}"
+}
 ```
-## 1. Overriding chart values (in parent chart)
+
+## Test 1
+
+> [!Note]
+> This test has **a single chart**
+> A key is introduced in `values.yaml`
+> The key is nulled in `next-values.yaml`
+> The result should be that the key is removed.
+
+```bash
+(
+  cd test-1
+  helm-ver 3.17.0 template . --values=./next-values.yaml
+  helm-ver latest template . --values=./next-values.yaml
+)
+```
+
+## Test 2
+
+> [!Note]
+> This test has **a single chart**
+> A key is introduced in `values.yaml`
+> The key is overridden in `next-values-1.yaml`
+> The key is nulled in `next-values-2.yaml`
+> The result should be that the key is `null`.
+
+```bash
+(
+  cd test-2
+  helm-ver 3.17.0 template . --values=./next-values-1.yaml --values=./next-values-2.yaml
+  helm-ver latest template . --values=./next-values-1.yaml --values=./next-values-2.yaml
+)
+```
+
+## Test 3
+
+> [!Note]
+> This test has **a nested chart**
+> A map is introduced in the child `charts/child/values.yaml`
+> A key is added in the parent `values.yaml`
+> The key is nulled in the parent `next-values.yaml`
+> The result should be that the key is removed.
 
 > [!Warning]
 > This is the test that has regressed.
 
-
-- The `child` chart defines a config section (empty mapping) in `values.yaml`. 
-- The `parent` chart defines a config value in `values.yaml`
-- The custom `next-values.yaml` overrides the parent config key with null
 ```bash
 (
-  cd nested-chart-values-override
-  helm-317 template . --values=./next-values.yaml 
-  helm-411 template . --values=./next-values.yaml 
-)
-```
-## 2. Overriding sibling values (in parent chart)
-- The `child` chart defines a config section (empty mapping) in `values.yaml`. 
-- The `parent` chart defines an arbitrary key in `values.yaml`
-- The custom `next-values-1.yaml` and `next-values-2.yaml` define a different key with a non-null, and null value, respectively.
-```bash
-(
-  cd nested-chart-siblings-override
-  helm-317 template . --values=./next-values-1.yaml --values=./next-values-2.yaml 
-  helm-411 template . --values=./next-values-1.yaml --values=./next-values-2.yaml 
-)
-```
-## 3. Overriding chart values (in single chart)
-
-- The chart defines a config section with a default value in `values.yaml`. 
-- The custom `next-values.yaml` overrides the chart config key with null
-```bash
-(
-  cd single-chart-values-override
-  helm-317 template . --values=./next-values.yaml 
-  helm-411 template . --values=./next-values.yaml
+  cd test-3
+  helm-ver 3.17.0 template . --values=./next-values.yaml
+  helm-ver latest template . --values=./next-values.yaml
 )
 ```
 
-## 4. Overriding sibling values (in single chart)
-- The chart defines a config section (empty mapping) in `values.yaml`.
-- The custom `next-values-1.yaml` and `next-values-2.yaml` define a different key with a non-null, and null value, respectively.
+## Test 4
+
+> [!Note]
+> This test has **a nested chart**
+> A key is introduced in the child `charts/child/values.yaml`
+> The key is modified in the parent `values.yaml`
+> The key is nulled in the parent `next-values.yaml`
+> The result should be that the key is removed.
+
 ```bash
 (
-  cd single-chart-siblings-override
-  helm-317 template . --values=./next-values-1.yaml --values=./next-values-2.yaml 
-  helm-411 template . --values=./next-values-1.yaml --values=./next-values-2.yaml 
+  cd test-4
+  helm-ver 3.17.0 template . --values=./next-values.yaml
+  helm-ver latest template . --values=./next-values.yaml
 )
 ```
 
+## Test 5
 
+> [!Note]
+> This test has **a nested chart**
+> A map is introduced in the child `charts/child/values.yaml`
+> A key is added in the parent `values.yaml`
+> The key is modified in the parent `next-values-1.yaml`
+> The key is nulled in the parent `next-values-2.yaml`
+> The result should be that the key is removed.
+
+```bash
+(
+  cd test-5
+  helm-ver 3.17.0 template . --values=./next-values-1.yaml --values=./next-values-2.yaml
+  helm-ver latest template . --values=./next-values-1.yaml --values=./next-values-2.yaml
+)
+```

@@ -1,4 +1,0 @@
-child:
-  config:
-    node_selector:
-      some-label: user
