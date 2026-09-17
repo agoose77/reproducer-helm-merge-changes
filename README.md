@@ -2,7 +2,9 @@
 
 Helm `null` handling has regressed between 3.17.0 and 4.x. Each test can be run by Helm 3.17.0, and Helm latest. Compare the outputs!
 
-## Define helpers
+## Running the tests
+
+You can run `./run-tests.sh`, or manually invoke each one. There's a helper to run a specific version of Helm via the Docker image:
 
 ```bash
 function helm-ver() {
@@ -12,7 +14,9 @@ function helm-ver() {
 }
 ```
 
-## Test 1
+## Tests
+
+### Test 1
 
 > [!Note]
 > This test has **a single chart**
@@ -20,6 +24,7 @@ function helm-ver() {
 > The key is nulled in `next-values.yaml`
 > The result should be that the key is removed.
 
+**Manual invocation**
 ```bash
 (
   cd test-1
@@ -28,7 +33,7 @@ function helm-ver() {
 )
 ```
 
-## Test 2
+### Test 2
 
 > [!Note]
 > This test has **a single chart**
@@ -37,6 +42,7 @@ function helm-ver() {
 > The key is nulled in `next-values-2.yaml`
 > The result should be that the key is `null`.
 
+**Manual invocation**
 ```bash
 (
   cd test-2
@@ -45,7 +51,7 @@ function helm-ver() {
 )
 ```
 
-## Test 3
+### Test 3
 
 > [!Note]
 > This test has **a nested chart**
@@ -57,6 +63,7 @@ function helm-ver() {
 > [!Warning]
 > This test has regressed.
 
+**Manual invocation**
 ```bash
 (
   cd test-3
@@ -65,7 +72,7 @@ function helm-ver() {
 )
 ```
 
-## Test 4
+### Test 4
 
 > [!Note]
 > This test has **a nested chart**
@@ -77,6 +84,7 @@ function helm-ver() {
 > [!Warning]
 > This test has regressed.
 
+**Manual invocation**
 ```bash
 (
   cd test-4
@@ -85,7 +93,7 @@ function helm-ver() {
 )
 ```
 
-## Test 5
+### Test 5
 
 > [!Note]
 > This test has **a nested chart**
@@ -95,6 +103,7 @@ function helm-ver() {
 > The key is nulled in the parent `next-values-2.yaml`
 > The result should be that the key is removed.
 
+**Manual invocation**
 ```bash
 (
   cd test-5
