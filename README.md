@@ -10,7 +10,7 @@ Each test can be run by Helm 3.17.0, and Helm latest. Compare the outputs!
 function helm-ver() {
   version="${1:?need version}"
   shift
-  podman run --rm -it -v $PWD:/app -w /app "docker.io/alpine/helm-ver:${version}" "${@}"
+  podman run --rm -it -v $PWD:/app -w /app "docker.io/alpine/helm:${version}" "${@}"
 }
 ```
 
@@ -57,7 +57,7 @@ function helm-ver() {
 > The result should be that the key is removed.
 
 > [!Warning]
-> This is the test that has regressed.
+> This test has regressed.
 
 ```bash
 (
@@ -75,6 +75,9 @@ function helm-ver() {
 > The key is modified in the parent `values.yaml`
 > The key is nulled in the parent `next-values.yaml`
 > The result should be that the key is removed.
+
+> [!Warning]
+> This test has regressed.
 
 ```bash
 (
